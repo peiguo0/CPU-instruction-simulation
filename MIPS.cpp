@@ -10,7 +10,7 @@ using namespace std;
 #define AND 4
 #define OR  5
 #define NOR 7
-#define MemSize 65536 //行 memory size, in reality, the memory size should be 2^32, but for this lab, for the space resaon, we keep it as this large number, but the memory is still 32-bit addressable.
+#define MemSize 65536 //Number of Row. memory size, in reality, the memory size should be 2^32, but for this lab, for the space resaon, we keep it as this large number, but the memory is still 32-bit addressable.
 
 
 class RF
@@ -172,21 +172,21 @@ public:
     bitset<32> Instruction;
     INSMem()
     {
-        IMem.resize(MemSize);             //why that large size? 8bits addressable memory?
+        IMem.resize(MemSize);
         ifstream imem;
         string line;
         int i=0;
-        imem.open("imem.txt");
+        imem.open("imem.txt");                                    //Under MAC OS, change imem.txt to its absolute path
         if (imem.is_open())
         {
             while (getline(imem,line))
             {
-                IMem[i] = bitset<8>(line);
-                //IMem[i] = stoul(line, NULL, 2);
+                IMem[i] = bitset<8>(line);                        //Under Linux, use this line
+                //IMem[i] = stoul(line, NULL, 2);                 //Under Mac OS, please use this line
                 i++;
             }
         }
-        else cout<<"Unable to open file1";
+        else cout<<"Unable to open file";
         imem.close();
         
     }
@@ -204,17 +204,13 @@ public:
         while (count != 3){
             
             tem=IMem[ad];
-            //std::cout<<tem;
-            //std::cout<<"\n";
             
             index=0;                       //reset index to 0
             while(index != 8){             //use or to add four IMem together to form Instruction
                 Instruction.set(index,tem[index]);
                 index+=1;
             }
-            //std::cout<<"i\n";
-            //std::cout<<Instruction;
-            //std::cout<<"i\n";
+
             Instruction=Instruction<<8;     //move left 8 bits
             count+=1;
             ad+=1;                          //turn to next line (8bits)
@@ -227,9 +223,6 @@ public:
             index+=1;
         }
         
-        
-
-        //std::cout<<"thisi\n";
         //done. implement by you. (Read the byte at the ReadAddress and the following three byte).
         return Instruction;
     }
@@ -249,13 +242,13 @@ public:
         ifstream dmem;
         string line;
         int i=0;
-        dmem.open("dmem.txt");
+        dmem.open("dmem.txt");                                  //Under MAC OS, an absolute path should be provided
         if (dmem.is_open())
         {
             while (getline(dmem,line))
             {
-                DMem[i] = bitset<8>(line);
-                //DMem[i] = stoul(line, NULL, 2);
+                DMem[i] = bitset<8>(line);                      //Under Linux, use this line
+                //DMem[i] = stoul(line, NULL, 2);               //Under MAC OS, change line250 with this line
                 i++;
             }
         }
@@ -271,7 +264,6 @@ public:
         bitset<8> tem;
         
         ad = Address.to_ulong();
-        
         
         if(writemem==1){                            //write data to DMem[ad]~DMem[ad+3]
             
@@ -318,8 +310,6 @@ public:
             readdata.set(index,tem[index]);
             index+=1;
         }
-
-        
         
         //done except readset<1>. implement by you.
         return readdata;
@@ -341,10 +331,8 @@ public:
     }
     
 private:
-    vector<bitset<8> > DMem;
-    
+    vector<bitset<8> > DMem;   
 };
-
 
 
 int main()
@@ -371,12 +359,11 @@ int main()
     while (1)
     {
         ins = myInsMem.ReadMemory(PC);
-        // Fetch
-        //std::cout<< ins <<endl;
+
         if(ins==0b11111111111111111111111111111111){
             break;
         }
-        // If current insturciton is4294967295 "11111111111111111111111111111111", then break;
+        // If current insturciton is 4294967295 "11111111111111111111111111111111", then break;
         
         index=0;                                //initialize index to 0
         while(index != 6){                      //fetch the opcode out
@@ -411,19 +398,9 @@ int main()
                 bitset<3> aluop(ADDU);
                 //  R[rd] = R[rs] + R[rt]
                 myRF.ReadWrite(RsAddress,RtAddress,0,0,0);
-                //std::cout<<"\nD1";
-                //std::cout<<myRF.ReadData1;
-                
-                //std::cout<<"\nD2";
-                //std::cout<<myRF.ReadData2;
-                //std::cout<<"\nD2";
                 
                 bitset<32> usum = myALU.ALUOperation(aluop, myRF.ReadData1, myRF.ReadData2);
                 myRF.ReadWrite(0,0,RdAddress,usum,1);
-                
-                //std::cout<<"sum";
-                //std::cout<<usum;
-                
 
                 //func=21  addu
             }
@@ -499,15 +476,6 @@ int main()
                     imm[index]=immediate[15];
                     index+=1;
                 }
-
-                //if(immediate[15]==1){
-                //    immediate.set(15,0);                //set sign bit as 0 after reading
-                //   imm=immediate.to_ulong();
-                //   imm.set(31,1);
-                //}
-                //else{
-                //    imm=immediate.to_ulong();
-                //}
                 
                 bitset<32> Raddiu = myALU.ALUOperation(aluop, myRF.ReadData1, imm); //calculate
 
@@ -533,19 +501,10 @@ int main()
                         BranchInit[index]=immediate[15];
                         index+=1;
                     }
-
-                    //if(immediate[15]==1){                   //if immediate is negative
-                    //    BranchInit.set(31,1);
-                    //    immediate.set(15,0);
-                    //}
                     
                     for(int i=0;i<16;i++){
                         BranchInit[i+2]=immediate[i];
                     }
-                    
-                    //for(int i=18;i<32;i++){
-                    //    BranchInit[i]=immediate[15];
-                    //}
                     
                     PC=myALU.ALUOperation(aluop, PC, BranchInit);   //calculate PC+BranchInit
                     
@@ -573,11 +532,6 @@ int main()
                     index+=1;
                 }
                 
-                //if(immediate[15]==1){                       //if imme is negative
-                //    signimmi.set(31,1);                     //set MSB as 1
-                //    signimmi.set(15,0);
-                //}
-                
                 ReadMemAd=myALU.ALUOperation(aluop, readreg, signimmi);   //calculate
                 
                 readmem = myDataMem.MemoryAccess(ReadMemAd,0,1,0);
@@ -602,11 +556,6 @@ int main()
                     signimmi[index]=immediate[15];
                     index+=1;
                 }
-                
-                //if(immediate[15]==1){
-                //    signimmi.set(15,0);
-                //    signimmi.set(31,1);
-                //}
                 
                 readmemad=myALU.ALUOperation(aluop, myRF.ReadData1, signimmi);
                 
@@ -644,7 +593,6 @@ int main()
         
     }
     myDataMem.OutputDataMem(); // dump data mem
-    //std::cout<< PC;
     
     return 0;
     
