@@ -3,9 +3,4 @@
 - We have defined a “halt” instruction as 32’b1 (0xFFFFFFFF) which is the last instruction in every *imem.txt* file. As the name suggests, when this instruction is fetched, the simulation is terminated.
 - The Data Memory is initialized using the *dmem.txt* file. The format of the stored words is the same as the Instruction Memory. As with the instruction memory, the data memory addresses also begin at 0 and increment by one in each line. 
 - The instructions that the simulator supports are *addu, subu, addiu, and, or, nor, beq, k, lw, sw, halt.*
-<<<<<<< HEAD
 - The link of Green sheet:[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf]
-
-=======
-- The link of Green sheet:\[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf]
-> > > > > > > origin/master
