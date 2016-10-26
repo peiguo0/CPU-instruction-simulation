@@ -4,9 +4,13 @@
 - The Data Memory is initialized using the *dmem.txt* file. The format of the stored words is the same as the Instruction Memory. As with the instruction memory, the data memory addresses also begin at 0 and increment by one in each line. 
 - The instructions that the simulator supports are *addu, subu, addiu, and, or, nor, beq, k, lw, sw, halt.*
 <<<<<<< HEAD
+<<<<<<< HEAD
 - The link of Green sheet:[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf][1]
 
 [1]:	https://inst.eecs.berkeley.edu/~cs61c/resources/MIPS_Green_Sheet.pdf
+=======
+- The link of Green sheet:[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf]
+>>>>>>> origin/master
 =======
 - The link of Green sheet:[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf]
 >>>>>>> origin/master
