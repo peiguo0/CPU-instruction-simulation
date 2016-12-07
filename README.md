@@ -6,3 +6,13 @@
 - The link of Green sheet:[https://inst.eecs.berkeley.edu/\~cs61c/resources/MIPS\_Green\_Sheet.pdf][1]
 
 [1]:	https://inst.eecs.berkeley.edu/~cs61c/resources/MIPS_Green_Sheet.pdf
+
+# How to run  
+- Make sure *MIPS.cpp, imem.txt, dmem.txt and Makefile.txt* are under same folder.  
+- execute: **g++ MIPS.cpp** to compile.
+- execure: **./a.out** to run.
+- Then *RFresult.txt* and *dmemresult.txt* are generated under the same folder.  
+- execute: **vi RFresult.txt** to view the result of register file.
+- execute: **vi dmemresult.txt** to view the result of data memory.  
+- Delete these two files every time before re-run the code. Or the result would be added to the end of the original file.
+  
